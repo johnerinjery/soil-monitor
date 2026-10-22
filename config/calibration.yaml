@@ -1,0 +1,39 @@
+# Calibration and site settings.  Edit, commit, and the next scheduled run uses it.
+# Everything here is a starting default.  Until you run the calibration steps in the README,
+# the dashboard labels the moisture index "uncalibrated" (set calibrated: true afterwards).
+
+site:
+  device_id: node-01          # must match DEVICE_ID in secrets.h
+  timezone: Asia/Kolkata      # display + "day" boundaries for DLI (data is stored in UTC)
+  cycle_s: 900                # nominal sampling period of the firmware (CYCLE_S)
+
+moisture:
+  calibrated: false           # flip to true after the dry/wet anchor measurements
+  vcc_mv: 3300                # supply seen by each module while it is powered
+  r_fixed_ohm: 10000          # fixed resistor in the module's divider (typical YL-69/FC-28 board: 10k; measure yours)
+  tc_per_degC: 0.02           # conductance temperature coefficient (about 2 %/degC)
+  cal_temp_c: 25              # temperature at which the anchors below were measured
+  mapping: linear             # linear | log   (index = position between the dry and wet conductance anchors)
+  mv_min_valid: 200           # below this a channel is treated as shorted/floating (floating pins read ~142 mV)
+  mv_max_valid: 3290          # at/above this the module is open-circuit (probe unplugged); flagged, not used
+  mad_max_mv: 30              # per-sample noise limit; larger = loose wire, row ignored for that probe
+  probes:                     # anchors: mV read at the dry end and at the wet end for THAT probe
+    m1: {name: "Probe 1", dry_mv: 3100, wet_mv: 1000}
+    m2: {name: "Probe 2", dry_mv: 3100, wet_mv: 1000}
+    m3: {name: "Probe 3", dry_mv: 3100, wet_mv: 1000}
+
+air:
+  dht_sigma_t_c: 0.5          # DHT22 temperature uncertainty used for VPD error bars
+  dht_sigma_rh_pct: 3.0       # DHT22 humidity uncertainty (datasheet +-2..5 %)
+
+light:
+  # PPFD [umol m-2 s-1] = factor x lux.  Lighting here is a mix of daylight and lamps, so this is a blend
+  # and the absolute DLI carries roughly +-25-35 % uncertainty.  Typical factors:
+  #   sunlight ~0.0185   white LED ~0.0146   cool-white fluorescent ~0.0135
+  ppfd_per_lux: 0.0165
+  sensor_rel_error: 0.20      # BH1750 relative error
+  source_factor_rel_error: 0.25  # uncertainty of ppfd_per_lux for a daylight+lamp mix (tighten when the source is known)
+  lux_saturation: 54000       # BH1750 high-res mode tops out near 54,600 lx
+  photoperiod_lux: 50         # lux above this counts as "light on"
+
+manual_log: config/manual_events.csv

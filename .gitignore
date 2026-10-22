@@ -1,0 +1,16 @@
+# credentials: never commit
+firmware/soil_node/secrets.h
+secrets.h
+.env
+*.env
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# generated output (the workflow builds this; do not commit it)
+web/data/*.json
+!web/data/sample/*.json
+_site/

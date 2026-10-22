@@ -1,0 +1,88 @@
+# Thresholds and tuning for the inference.  Every number is a default to be tuned on your own data.
+
+general:
+  grid_min: 15                # regular analysis grid
+  max_interp_h: 1.0           # gaps longer than this stay gaps (never bridged)
+  stale_warn_h: 1.0           # no new row for this long -> warning
+  stale_crit_h: 6.0           # ... critical
+  ts_min_epoch: 1700000000    # earlier timestamps are treated as unsynced clock junk
+  hampel_window: 7            # samples, spike filter for temperature / humidity
+  hampel_sigmas: 5.0
+  stuck_samples: 48           # air temperature AND humidity unchanged this many samples (12 h) -> "possible stuck DHT22" (health flag only)
+
+moisture:
+  target_w: 0.40              # "water soon" level of the index (W*)
+  wet_w: 0.95                 # at/above = saturated
+  settle_h: 6.0               # grace period after a watering before dwell counts
+  min_probes_for_median: 1
+  spread_flag: 0.25           # probes disagree by more than this for ...
+  spread_flag_h: 2.0          # ... this long -> flag
+
+events:                       # I1 watering detector
+  rise_w: 0.10                # rise of W within the window
+  rise_window_h: 2.0
+  refractory_h: 3.0
+  min_probe_fraction: 0.6667  # share of valid probes that must agree
+  peak_window_h: 2.0
+  match_tolerance_h: 3.0      # detected vs manual log entry
+
+forecast:                     # I2 dry-down
+  settle_h: 6.0               # ignore the first hours after the peak (redistribution)
+  min_points: 48              # >= 12 h of data on the 15-min grid
+  min_span_h: 12
+  max_segment_days: 14
+  vpd_lookback_days: 3        # expected future VPD = mean of this window
+  min_vpd_kpa: 0.15           # floor so a humid spell does not give infinite times
+
+drying_anomaly:              # I5
+  window_h: 6
+  factor: 1.5
+  min_baseline_points: 96
+
+overwet:                      # I3
+  elevated_h: 24
+  high_h: 72
+
+humid_air:                    # I4
+  rh_threshold: 80
+  t_min_c: 5
+  t_max_c: 40
+  decay: 0.5
+  elevated_h: 24
+  high_h: 72
+
+vpd:                          # I5 bands [kPa]
+  low: 0.4
+  ok_max: 1.2
+  warn_max: 1.6
+
+light:                        # I6
+  dli_low: 6.0                # mol m-2 d-1 (foliage default, edit per plant)
+  dli_high: 10.0
+  min_coverage: 0.8           # fraction of the day with valid lux for a "complete" DLI
+
+thermal:                      # I7
+  tau_min_h: 0.25
+  tau_max_h: 48
+  min_days: 2.0
+
+condensation:                 # I9, margin = T_soil - T_dew [degC]
+  warn_c: 2.0
+  crit_c: 0.5
+
+comfort:                      # I10
+  t_ok: [18, 28]
+  rh_ok: [30, 70]
+  t_cold: 10
+  t_hot: 35
+
+health:
+  rssi_weak: -80
+  vbat_low_mv: 3500
+  restart_flag_per_week: 3
+  seq_gap_warn_pct: 10
+
+export:
+  raw_days: 30                # per-sample rows shipped to the browser
+  series_days: 60             # 15-min derived grid shipped to the browser
+  fetch_days: 365             # how much history the job pulls from Supabase

@@ -1,0 +1,4 @@
+# Your watering/maintenance log. One row per event.  Time is LOCAL (site timezone) as YYYY-MM-DD HH:MM.
+# type: water | fertilize | repot | moved | other      volume_ml and note are optional.
+# Logging real waterings lets the dashboard check its own detector and anchors the dry-down fit.
+timestamp_local,type,volume_ml,note

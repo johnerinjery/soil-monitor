@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soil and Environment Monitor</title>
+<meta name="description" content="Live soil moisture, temperature, humidity and light from an ESP32 plant-pot node, with derived indicators.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-l">
+    <h1>Soil &amp; environment monitor</h1>
+    <p class="muted" id="subtitle">Loading…</p>
+  </div>
+  <div class="top-r">
+    <span id="status-pill" class="pill" role="status"></span>
+    <button id="theme" class="btn" type="button" aria-label="Switch colour theme">Theme</button>
+  </div>
+</header>
+
+<div id="banners" aria-live="polite"></div>
+
+<nav class="filters" aria-label="Time range and downloads">
+  <div class="seg" id="range" role="group" aria-label="Time range">
+    <button type="button" data-r="1">24 h</button>
+    <button type="button" data-r="3">3 d</button>
+    <button type="button" data-r="7" aria-pressed="true">7 d</button>
+    <button type="button" data-r="14">14 d</button>
+    <button type="button" data-r="30">30 d</button>
+    <button type="button" data-r="0">All</button>
+  </div>
+  <div class="grow"></div>
+  <button type="button" class="btn" id="dl-raw">Raw CSV</button>
+  <button type="button" class="btn" id="dl-der">Derived CSV</button>
+</nav>
+
+<main>
+  <section id="tiles" class="tiles" aria-label="Current state"></section>
+
+  <section aria-labelledby="h-flags">
+    <h2 id="h-flags">Alerts and notes</h2>
+    <ul id="flags" class="flags"></ul>
+  </section>
+
+  <section aria-labelledby="h-soil">
+    <h2 id="h-soil">Soil moisture</h2>
+    <div id="sec-soil" class="stack"></div>
+  </section>
+
+  <section aria-labelledby="h-air">
+    <h2 id="h-air">Air, evaporative demand and temperature</h2>
+    <div id="sec-air" class="stack"></div>
+  </section>
+
+  <section aria-labelledby="h-light">
+    <h2 id="h-light">Light</h2>
+    <div id="sec-light" class="stack"></div>
+  </section>
+
+  <section aria-labelledby="h-raw">
+    <h2 id="h-raw">Raw measurements</h2>
+    <p class="muted note">Exactly what the node sent, before any cleaning. Hollow rings mark values the analysis left out (spike filter or an invalid flag from the firmware). Lines break where the node was silent.</p>
+    <div id="sec-raw" class="stack"></div>
+  </section>
+
+  <section aria-labelledby="h-ev">
+    <h2 id="h-ev">Watering events and daily summary</h2>
+    <div class="two">
+      <div><h3>Events</h3><div id="events-table" class="scroll"></div></div>
+      <div><h3>Per day (site time)</h3><div id="daily-table" class="scroll"></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-health">
+    <h2 id="h-health">Node and data health</h2>
+    <div id="health" class="health"></div>
+  </section>
+
+  <section aria-labelledby="h-work">
+    <h2 id="h-work">Show your work</h2>
+    <div id="explain" class="explain"></div>
+  </section>
+</main>
+
+<footer class="muted">
+  <p id="foot"></p>
+  <p>Derived numbers are indicators, not measurements. The moisture index is a relative scale until calibrated; light dose assumes a daylight + lamp mix and carries about ±30 % uncertainty; forecasts are windows, not dates. Charts: Plotly.js (MIT).</p>
+</footer>
+
+<script src="vendor/plotly.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
