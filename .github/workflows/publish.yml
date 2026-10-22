@@ -49,7 +49,7 @@ jobs:
           python -m soilmon.run --source supabase --config-dir config --out _site/data
 
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
