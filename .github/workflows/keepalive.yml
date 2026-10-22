@@ -15,7 +15,7 @@ jobs:
   keepalive:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Empty commit when the repo has been quiet
         run: |
           age_days=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
