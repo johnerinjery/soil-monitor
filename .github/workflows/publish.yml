@@ -48,7 +48,7 @@ jobs:
           # a failed fetch exits non-zero: the job fails and the previous good site stays online
           python -m soilmon.run --source supabase --config-dir config --out _site/data
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
