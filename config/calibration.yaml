@@ -5,10 +5,10 @@
 site:
   device_id: node-01          # must match DEVICE_ID in secrets.h
   timezone: Asia/Kolkata      # display + "day" boundaries for DLI (data is stored in UTC)
-  cycle_s: 900                # nominal sampling period of the firmware (CYCLE_S)
+  cycle_s: 600                # nominal sampling period of the firmware (CYCLE_S)
 
 moisture:
-  calibrated: false           # flip to true after the dry/wet anchor measurements
+  calibrated: true           # flip to true after the dry/wet anchor measurements
   vcc_mv: 3300                # supply seen by each module while it is powered
   r_fixed_ohm: 10000          # fixed resistor in the module's divider (typical YL-69/FC-28 board: 10k; measure yours)
   tc_per_degC: 0.02           # conductance temperature coefficient (about 2 %/degC)
@@ -18,9 +18,9 @@ moisture:
   mv_max_valid: 3290          # at/above this the module is open-circuit (probe unplugged); flagged, not used
   mad_max_mv: 30              # per-sample noise limit; larger = loose wire, row ignored for that probe
   probes:                     # anchors: mV read at the dry end and at the wet end for THAT probe
-    m1: {name: "Probe 1", dry_mv: 3100, wet_mv: 1000}
-    m2: {name: "Probe 2", dry_mv: 3100, wet_mv: 1000}
-    m3: {name: "Probe 3", dry_mv: 3100, wet_mv: 1000}
+    m1: {name: "Probe 1", dry_mv: 752, wet_mv: 1358}
+    m2: {name: "Probe 2", dry_mv: 906, wet_mv: 1566}
+    m3: {name: "Probe 3", dry_mv: 852, wet_mv: 1480}
 
 air:
   dht_sigma_t_c: 0.5          # DHT22 temperature uncertainty used for VPD error bars

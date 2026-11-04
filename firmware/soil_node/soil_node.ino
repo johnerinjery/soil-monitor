@@ -59,7 +59,7 @@
 //  CONFIGURATION
 // =====================================================================
 #define FW_VERSION              "1.0.1"
-#define DEBUG_SERIAL            1       // 1 = print progress on Serial (115200); 0 for deployment
+#define DEBUG_SERIAL            0       // 1 = print progress on Serial (115200); 0 for deployment
 
 // ---- Pins ----
 static const uint8_t PIN_MOIST_PWR[3] = {25, 26, 27};   // switched 3V3 for each moisture module
@@ -72,7 +72,7 @@ static const uint8_t PIN_VBAT         = 39;             // VN, only used if ENAB
 static const uint8_t BH1750_ADDR      = 0x23;
 
 // ---- Schedule ----
-#define CYCLE_S                 900     // wake period in seconds (use 60 for bench testing)
+#define CYCLE_S                 600     // wake period in seconds (use 60 for bench testing)
 #define ALIGN_TO_GRID           1       // wake on wall-clock marks (:00 :15 :30 :45) when time is known
 #define UPLOAD_EVERY_N_CYCLES   1       // 1 = upload every wake; 4 = hourly batches (saves energy)
 #define NTP_RESYNC_S            3600    // re-sync the clock at most this often
