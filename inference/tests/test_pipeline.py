@@ -27,7 +27,7 @@ def test_full_run_on_dirty_simulation(sim_dirty, cfg0):
     assert res.forecast["status"] in ("ok", "no_trend", "at_or_below", "insufficient")
     assert res.thermal["status"] == "ok" and res.thermal["tau_h"] == pytest.approx(truth["tau_h"], rel=0.2)
     assert res.ds.report["rows_no_ts"] == 3
-    assert "uncalibrated" in [f["id"] for f in res.flags]
+    assert "uncalibrated" not in [f["id"] for f in res.flags]
     sev = [f["sev"] for f in res.flags]
     assert sev == sorted(sev, key=lambda s: -{"ok": 0, "info": 1, "warn": 2, "crit": 3}[s])
     assert set(res.explain) >= {"moisture", "vpd", "ppfd", "events"}
