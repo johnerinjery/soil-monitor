@@ -18,10 +18,9 @@ moisture:
   mv_max_valid: 3290          # at/above this the module is open-circuit (probe unplugged); flagged, not used
   mad_max_mv: 30              # per-sample noise limit; larger = loose wire, row ignored for that probe
   probes:                     # anchors: mV read at the dry end and at the wet end for THAT probe
-    m1: {name: "Probe 1", dry_mv: 752, wet_mv: 1358}
-    m2: {name: "Probe 2", dry_mv: 906, wet_mv: 1566}
-    m3: {name: "Probe 3", dry_mv: 852, wet_mv: 1480}
-
+    m1: {name: "Probe 1", dry_mv: 1358, wet_mv: 752}
+    m2: {name: "Probe 2", dry_mv: 1566, wet_mv: 906}
+    m3: {name: "Probe 3", dry_mv: 1480, wet_mv: 852}
 air:
   dht_sigma_t_c: 0.5          # DHT22 temperature uncertainty used for VPD error bars
   dht_sigma_rh_pct: 3.0       # DHT22 humidity uncertainty (datasheet +-2..5 %)
