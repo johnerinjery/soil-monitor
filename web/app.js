@@ -895,7 +895,7 @@
       raw = $("#sec-raw");
     [soil, air, light, raw].forEach((n) => (n.textContent = ""));
     makePanel(soil, "p-moist", "Moisture index per probe and median", "");
-    // makePanel(soil, "p-k", "Drying coefficient per dry-down", "");
+    makePanel(soil, "p-k", "Drying coefficient per dry-down", "");
     makePanel(soil, "p-over", "Spread between probes", "");
     makePanel(air, "p-vpd", "Vapour-pressure deficit", "");
     makePanel(air, "p-temp", "Soil and air temperature", "");
