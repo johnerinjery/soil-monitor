@@ -895,7 +895,7 @@
       raw = $("#sec-raw");
     [soil, air, light, raw].forEach((n) => (n.textContent = ""));
     makePanel(soil, "p-moist", "Moisture index per probe and median", "");
-    makePanel(soil, "p-k", "Drying coefficient per dry-down", "");
+    // makePanel(soil, "p-k", "Drying coefficient per dry-down", "");
     makePanel(soil, "p-over", "Spread between probes", "");
     makePanel(air, "p-vpd", "Vapour-pressure deficit", "");
     makePanel(air, "p-temp", "Soil and air temperature", "");
@@ -919,7 +919,7 @@
       ["r-rssi", "Wi-Fi signal at the previous upload"],
     ].forEach((a) => makePanel(raw, a[0], a[1], ""));
     S.plots.forEach((P) => {
-      P.sync = !["p-k", "p-dli", "p-heat"].includes(P.id);
+      P.sync = !["p-dli", "p-heat"].includes(P.id);
     });
   }
   const P_ = (id) => S.plots.find((q) => q.id === id);
@@ -1104,71 +1104,71 @@
     );
   }
 
-  function renderK(p) {
-    const fc = S.L.forecast || {},
-      hist = (fc.history || []).slice(-12),
-      cur = fc.fit;
-    const x = hist.map((h) => nice(h.t0)),
-      y = hist.map((h) => h.k);
-    const tr = [];
-    if (hist.length)
-      tr.push({
-        type: "bar",
-        name: "Completed dry-downs",
-        x,
-        y,
-        marker: { color: p.s1, cornerradius: 4 },
-        width: barW(P_("p-k"), hist.length + 1),
-        hovertemplate: "k = %{y:.3f}",
-        __keep: true,
-      });
-    if (cur && cur.k > 0)
-      tr.push({
-        type: "bar",
-        name: "Current",
-        x: ["now"],
-        y: [cur.k],
-        marker: { color: p.s2, cornerradius: 4 },
-        width: barW(P_("p-k"), hist.length + 1),
-        error_y: {
-          type: "data",
-          symmetric: false,
-          array: [cur.k_hi - cur.k],
-          arrayminus: [cur.k - cur.k_lo],
-          color: p.ink2,
-          thickness: 1.5,
-          width: 4,
-        },
-        hovertemplate: "k = %{y:.3f}",
-        __keep: true,
-      });
-    const lay = baseLayout(p, {
-      height: 190,
-      ytitle: "k (index per kPa·day)",
-      yaxis: { rangemode: "tozero" },
-      xaxis: {
-        type: "category",
-        gridcolor: p.grid,
-        tickfont: { color: p.ink2, size: 11 },
-        zeroline: false,
-      },
-      hovermode: "closest",
-      legend: tr.length > 1,
-    });
-    lay.bargap = 0.4;
-    draw(
-      P_("p-k"),
-      tr,
-      lay,
-      () => ({
-        head: ["dry-down starting", "k", "points"],
-        rows: hist
-          .map((h) => [nice(h.t0), h.k, h.n])
-          .concat(cur ? [["current", +cur.k.toFixed(3), cur.n]] : []),
-      }),
-      "How fast the index falls per unit of evaporative demand. A rising k means the soil dries faster for the same air (more light on the pot, root growth, a heater). Error bar: widened 95 % range.",
-    );
-  }
+  // function renderK(p) {
+  //   const fc = S.L.forecast || {},
+  //     hist = (fc.history || []).slice(-12),
+  //     cur = fc.fit;
+  //   const x = hist.map((h) => nice(h.t0)),
+  //     y = hist.map((h) => h.k);
+  //   const tr = [];
+  //   if (hist.length)
+  //     tr.push({
+  //       type: "bar",
+  //       name: "Completed dry-downs",
+  //       x,
+  //       y,
+  //       marker: { color: p.s1, cornerradius: 4 },
+  //       width: barW(P_("p-k"), hist.length + 1),
+  //       hovertemplate: "k = %{y:.3f}",
+  //       __keep: true,
+  //     });
+  //   if (cur && cur.k > 0)
+  //     tr.push({
+  //       type: "bar",
+  //       name: "Current",
+  //       x: ["now"],
+  //       y: [cur.k],
+  //       marker: { color: p.s2, cornerradius: 4 },
+  //       width: barW(P_("p-k"), hist.length + 1),
+  //       error_y: {
+  //         type: "data",
+  //         symmetric: false,
+  //         array: [cur.k_hi - cur.k],
+  //         arrayminus: [cur.k - cur.k_lo],
+  //         color: p.ink2,
+  //         thickness: 1.5,
+  //         width: 4,
+  //       },
+  //       hovertemplate: "k = %{y:.3f}",
+  //       __keep: true,
+  //     });
+  //   const lay = baseLayout(p, {
+  //     height: 190,
+  //     ytitle: "k (index per kPa·day)",
+  //     yaxis: { rangemode: "tozero" },
+  //     xaxis: {
+  //       type: "category",
+  //       gridcolor: p.grid,
+  //       tickfont: { color: p.ink2, size: 11 },
+  //       zeroline: false,
+  //     },
+  //     hovermode: "closest",
+  //     legend: tr.length > 1,
+  //   });
+  //   lay.bargap = 0.4;
+  //   draw(
+  //     P_("p-k"),
+  //     tr,
+  //     lay,
+  //     () => ({
+  //       head: ["dry-down starting", "k", "points"],
+  //       rows: hist
+  //         .map((h) => [nice(h.t0), h.k, h.n])
+  //         .concat(cur ? [["current", +cur.k.toFixed(3), cur.n]] : []),
+  //     }),
+  //     "How fast the index falls per unit of evaporative demand. A rising k means the soil dries faster for the same air (more light on the pot, root growth, a heater). Error bar: widened 95 % range.",
+  //   );
+  // }
 
   function renderAir(p) {
     const [t0, t1] = range(),
@@ -2054,7 +2054,7 @@
       renderFlags();
       renderHeader();
       renderMoisture(p);
-      renderK(p);
+      // renderK(p);
       renderAir(p);
       renderLight(p);
       renderRaw(p);
