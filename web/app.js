@@ -1499,7 +1499,7 @@
         len: 0.9,
         outlinewidth: 0,
       },
-      hovertemplate: "%{x} %{y}:00<br>%{z:.0f} µmol/m²/s<extra></extra>",
+      hovertemplate: "%{x} %{y}:00<br>%{z:.2f} µmol/m²/s<extra></extra>",
     };
     hz.__keep = H.dates.length > 0;
     const lay2 = baseLayout(p, {
@@ -1529,7 +1529,7 @@
         head: ["hour"].concat(H.dates.slice(-10)),
         rows: H.hours.map((h, i) =>
           [h + ":00"].concat(
-            H.z[i].slice(-10).map((v) => (v == null ? null : +v.toFixed(0))),
+            H.z[i].slice(-10).map((v) => (v == null ? null : +v.toFixed(2))),
           ),
         ),
       }),
